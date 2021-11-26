@@ -85,7 +85,7 @@ hgrep 'a +class="detDesc"' "$t1" | sed 's/.*">//;s/<.*//' > "$t_uled"
 hgrep 'td +align="right"' "$t1" | sed '/>$/{N; s/>\n//}; s/<td align="right">//g; s/<\/td/ /g;' > "$t2"
 cut -d ' ' -f1 "$t2" > "$t_se"
 cut -d ' ' -f2 "$t2" > "$t_le"
-hgrep 'a +class="detLink" +title' g.html | sed 's/.*">//;s/<.*//' > "$t_name"
+hgrep 'a +class="detLink" +title' "$t1" | sed 's/.*">//;s/<.*//' > "$t_name"
 hgrep 'center; a' "$t1" | sed '/>$/{N; s/.*>\n//}; s/.*">//; s/<.*//' > "$t_type"
 grep -oE 'magnet:\?[^"]+' "$t1" > "$t_magnet"
 
