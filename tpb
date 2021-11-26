@@ -78,16 +78,16 @@ t_time="$(mktemp)"
 t_uled="$(mktemp)"
 trap 'rm "$t1" "$t2" "$t_size" "$t_time" "$t_uled" "$t_se" "$t_le" "$t_name" "$t_type" "$t_magnet"' EXIT
 
-curl -s "https://tpb.party/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'tr' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
+curl -s "https://tpb.party/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
 grep -o "Size [0-9].*," "$t1" | sed 's/Size //; s/\&nbsp\;/ /; s/,//;' > "$t_size"
 grep -o 'Uploaded [0-9].*[0-9],' "$t1" | sed 's/Uploaded //; s/&nbsp\;/-/; s/,//' > "$t_time"
-hgrep 'a +class="detDesc"' "$t1" | grep -o '>.*<' | sed 's/^>//; s/<$//' > "$t_uled"
+hgrep 'a +class="detDesc"' "$t1" | sed 's/.*">//;s/<.*//' > "$t_uled"
 hgrep 'td +align="right"' "$t1" | sed '/>$/{N; s/>\n//}; s/<td align="right">//g; s/<\/td/ /g;' > "$t2"
 cut -d ' ' -f1 "$t2" > "$t_se"
 cut -d ' ' -f2 "$t2" > "$t_le"
-hgrep 'a +class="detLink" +title' "$t1" | grep -o '>.*<' | sed 's/<//; s/>//; s/&.*;/\&/' > "$t_name"
-hgrep 'center; a' "$t1" | grep -o '>.*<' | sed '/<$/{N; s/<\n/|/}; s/>//g; s/<//g' > "$t_type"
-grep -o '<a href=".*" title="Download this torrent using magnet">' "$t1" | sed 's/<a href="//; s/".*//' > "$t_magnet"
+hgrep 'a +class="detLink" +title' g.html | sed 's/.*">//;s/<.*//' > "$t_name"
+hgrep 'center; a' "$t1" | sed '/>$/{N; s/.*>\n//}; s/.*">//; s/<.*//' > "$t_type"
+grep -oE 'magnet:\?[^"]+' "$t1" > "$t_magnet"
 
 paste "$t_type" "$t_size" "$t_time" "$t_name" "$t_se" "$t_le" "$t_uled" | nl
 printf 'num> '
