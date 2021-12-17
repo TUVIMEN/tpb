@@ -20,6 +20,7 @@ by_rtype=14
 SORT="$by_se"
 PAGE=0
 SEARCH=""
+DOMAIN="https://tpb.party"
 
 while [ $# -gt 0 ]
 do
@@ -47,6 +48,7 @@ do
         NAME="$(basename "$0")"
         printf "%s [OPTION]... [PATTERN]\nSearch for PATTERN in pb.\nExample: %s -s size -p 2 'archlinux'\n\n" "$NAME" "$NAME"
         printf "Options:\n  -s,  --sort TYPE\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, rse, le, rle, uled, ruled, type, rtype\n"
+        printf "  -d,  --domain DOMAIN\tset domain to DOMAIN\n"
         printf "  -p,  --page NUM\tshow page at NUM\n"
         printf "  -h,  --help\t\tshow help\n"
         printf "\nMagnet link will be copied via xclip.\n"
@@ -54,6 +56,10 @@ do
         ;;
     -p|--page)
         PAGE="$2"
+        shift 2
+        ;;
+    -d|--domain)
+        DOMAIN="$2"
         shift 2
         ;;
     *)
@@ -78,7 +84,7 @@ t_time="$(mktemp)"
 t_uled="$(mktemp)"
 trap 'rm "$t1" "$t2" "$t_size" "$t_time" "$t_uled" "$t_se" "$t_le" "$t_name" "$t_type" "$t_magnet"' EXIT
 
-curl -s "https://tpb.party/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
+curl -s "$DOMAIN/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
 grep -o "Size [0-9].*," "$t1" | sed 's/Size //; s/\&nbsp\;/ /; s/,//;' > "$t_size"
 grep -o 'Uploaded [0-9].*[0-9],' "$t1" | sed 's/Uploaded //; s/&nbsp\;/-/; s/,//' > "$t_time"
 hgrep 'a +class="detDesc"' "$t1" -printf "%i\n" > "$t_uled"
