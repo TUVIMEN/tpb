@@ -1,5 +1,5 @@
 # tpb
-A shell script to search for torrents on thepiratebay.
+A shell script for searching torrents on thepiratebay.
 
 ## Requirements
 
