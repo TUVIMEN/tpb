@@ -7,6 +7,4 @@ A shell script for searching torrents on thepiratebay.
  - xclip
 
 ## Instalation
-    git clone 'https://github.com/TUVIMEN/tpb'
-    cd tpb
-    sudo install -m 755 tpb /usr/bin
+    install -m 755 tpb /usr/bin
