@@ -21,6 +21,16 @@ SORT="$by_se"
 PAGE=0
 SEARCH=""
 DOMAIN="https://tpb.party"
+DELIM="\t"
+
+C_LE="31"
+C_SE="32"
+C_SIZE="33"
+C_CATEGORY="34"
+C_AUTHOR="35"
+C_TIME="36"
+C_NAME="39"
+COLOR=1
 
 while [ $# -gt 0 ]
 do
@@ -42,30 +52,37 @@ do
         type) SORT="$by_type";;
         rtype) SORT="$by_rtype";;
       esac
-      shift 2
-      ;;
+      shift 2;;
     -h|--help)
         NAME="$(basename "$0")"
         printf "%s [OPTION]... [PATTERN]\nSearch for PATTERN in pb.\nExample: %s -s size -p 2 'archlinux'\n\n" "$NAME" "$NAME"
         printf "Options:\n  -s,  --sort TYPE\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, rse, le, rle, uled, ruled, type, rtype\n"
         printf "  -d,  --domain DOMAIN\tset domain to DOMAIN\n"
+        printf "  -D,  --delimiter DELIM\tset delimiter to DELIM\n"
         printf "  -p,  --page NUM\tshow page at NUM\n"
+        printf "  -c,  --color\t\tcolor output\n"
+        printf "  -C,  --no-color\t\tdisable coloring of output\n"
         printf "  -h,  --help\t\tshow help\n"
         printf "\nMagnet link will be copied via xclip.\n"
-        exit 0
-        ;;
+        exit 0;;
+    -c|--color)
+        COLOR=1
+        shift;;
+    -C|--no-color)
+        COLOR=0
+        shift;;
     -p|--page)
         PAGE="$2"
-        shift 2
-        ;;
+        shift 2;;
     -d|--domain)
         DOMAIN="$2"
-        shift 2
-        ;;
+        shift 2;;
+    -D|--delimiter)
+        DELIM="$2"
+        shift 2;;
     *)
       SEARCH="$1"
-      shift
-      ;;
+      shift;;
   esac
 done
 
@@ -95,7 +112,23 @@ hgrep 'a +class="detLink" +title' "$t1" -printf "%i\n" > "$t_name"
 hgrep 'center; a' "$t1" -printf "%i\n" | sed 'N; s/.*\n//' > "$t_type"
 grep -oE 'magnet:\?[^"]+' "$t1" > "$t_magnet"
 
-paste "$t_type" "$t_size" "$t_time" "$t_name" "$t_se" "$t_le" "$t_uled" | nl
+color_lines() {
+    sed "s/^/\x1b[$1m/; s/$/\x1b[0m/" "$2" > "$3"
+    cp "$3" "$2"
+}
+
+if [ "$COLOR" -eq 1 ]
+then
+    color_lines "$C_SIZE" "$t_size" "$t1"
+    color_lines "$C_NAME" "$t_name" "$t1"
+    color_lines "$C_LE" "$t_le" "$t1"
+    color_lines "$C_SE" "$t_se" "$t1"
+    color_lines "$C_AUTHOR" "$t_uled" "$t1"
+    color_lines "$C_TIME" "$t_time" "$t1"
+    color_lines "$C_CATEGORY" "$t_type" "$t1"
+fi
+
+paste -d "$DELIM" "$t_type" "$t_size" "$t_time" "$t_name" "$t_se" "$t_le" "$t_uled" | nl
 printf 'num> '
 read -r NUMBER
 [ "$NUMBER" -gt 0 ] && sed "${NUMBER}q;d" "$t_magnet" | tee /dev/stderr | xclip -sel clip
