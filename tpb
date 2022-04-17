@@ -56,13 +56,13 @@ do
     -h|--help)
         NAME="$(basename "$0")"
         printf "%s [OPTION]... [PATTERN]\nSearch for PATTERN in pb.\nExample: %s -s size -p 2 'archlinux'\n\n" "$NAME" "$NAME"
-        printf "Options:\n  -s,  --sort TYPE\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, rse, le, rle, uled, ruled, type, rtype\n"
-        printf "  -d,  --domain DOMAIN\tset domain to DOMAIN\n"
+        printf "Options:\n  -s,  --sort TYPE\t\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, rse, le, rle, uled, ruled, type, rtype\n"
+        printf "  -d,  --domain DOMAIN\t\tset domain to DOMAIN\n"
         printf "  -D,  --delimiter DELIM\tset delimiter to DELIM\n"
-        printf "  -p,  --page NUM\tshow page at NUM\n"
-        printf "  -c,  --color\t\tcolor output\n"
+        printf "  -p,  --page NUM\t\tshow page at NUM\n"
+        printf "  -c,  --color\t\t\tcolor output\n"
         printf "  -C,  --no-color\t\tdisable coloring of output\n"
-        printf "  -h,  --help\t\tshow help\n"
+        printf "  -h,  --help\t\t\tshow help\n"
         printf "\nMagnet link will be copied via xclip.\n"
         exit 0;;
     -c|--color)
