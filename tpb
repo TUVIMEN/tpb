@@ -104,12 +104,12 @@ trap 'rm "$t1" "$t2" "$t_size" "$t_time" "$t_uled" "$t_se" "$t_le" "$t_name" "$t
 curl -s "$DOMAIN/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
 grep -o "Size [0-9].*," "$t1" | sed 's/Size //; s/\&nbsp\;/ /; s/,//;' > "$t_size"
 grep -o 'Uploaded [0-9].*[0-9],' "$t1" | sed 's/Uploaded //; s/&nbsp\;/-/; s/,//' > "$t_time"
-hgrep 'a +class="detDesc"' "$t1" -printf "%i\n" > "$t_uled"
-hgrep 'td +align="right"' "$t1" -printf "%i\n" | sed 'N; s/\n/ /' > "$t2"
+hgrep 'a +class="detDesc" @p"%i\n"' "$t1" > "$t_uled"
+hgrep 'td +align="right" @p"%i\n"' "$t1" | sed 'N; s/\n/ /' > "$t2"
 cut -d ' ' -f1 "$t2" > "$t_se"
 cut -d ' ' -f2 "$t2" > "$t_le"
-hgrep 'a +class="detLink" +title' "$t1" -printf "%i\n" > "$t_name"
-hgrep 'center; a' "$t1" -printf "%i\n" | sed 'N; s/.*\n//' > "$t_type"
+hgrep 'a +class="detLink" +title @p"%i\n"' "$t1" > "$t_name"
+hgrep 'center; a @p"%i\n"' "$t1" | sed 'N; s/.*\n//' > "$t_type"
 grep -oE 'magnet:\?[^"]+' "$t1" > "$t_magnet"
 
 color_lines() {
