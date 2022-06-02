@@ -131,4 +131,4 @@ fi
 paste -d "$DELIM" "$t_type" "$t_size" "$t_time" "$t_name" "$t_se" "$t_le" "$t_uled" | nl
 printf 'num> '
 read -r NUMBER
-[ "$NUMBER" -gt 0 ] && sed "${NUMBER}q;d" "$t_magnet" | tee /dev/stderr | xclip -sel clip
+[ "$NUMBER" -gt 0 ] && sed "${NUMBER}q;d" "$t_magnet" | tee /dev/stderr | tr -d '\n' | xclip -sel clip
