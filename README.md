@@ -15,11 +15,11 @@ A shell script for searching torrents on thepiratebay.
 
 Just type 'tpb "your search"', choose what you want and the magnet link will be copied to your clipboard.
 
-Search for biggest linux isos
+Search for the biggest linux isos
 
     tpb -s size 'linux iso'
 
-Search for smallest linux isos on second page
+Search for the smallest linux isos on second page
 
     tpb -s rsize -p 2 'linux iso'
 
