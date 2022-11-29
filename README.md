@@ -1,4 +1,5 @@
 # tpb
+
 A shell script for searching torrents on thepiratebay.
 
 ![example](example.gif)
@@ -9,6 +10,7 @@ A shell script for searching torrents on thepiratebay.
  - xclip
 
 ## Installation
+
     install -m 755 tpb /usr/bin
 
 ## Usage
@@ -25,7 +27,7 @@ Search for the smallest linux isos on second page
 
 Search different domain for linux isos and change delimiter to space
 
-    tpb -d ' ' -D 'http://otherdomain.to' 'linux iso'
+    tpb -D ' ' -d 'http://otherdomain.to' 'linux iso'
 
 Get some help
 
