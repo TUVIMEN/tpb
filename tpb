@@ -32,6 +32,8 @@ C_TIME="36"
 C_NAME="39"
 COLOR=1
 
+alias ucurl='curl -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.2 Chrome/87.0.4280.144 Safari/537.36" -H "Accept-Encoding: gzip, deflate" --compressed'
+
 while [ $# -gt 0 ]
 do
   case "$1" in
@@ -101,7 +103,7 @@ t_time="$(mktemp)"
 t_uled="$(mktemp)"
 trap 'rm "$t1" "$t2" "$t_size" "$t_time" "$t_uled" "$t_se" "$t_le" "$t_name" "$t_type" "$t_magnet"' EXIT
 
-curl -s "$DOMAIN/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
+ucurl -s "$DOMAIN/search/$SEARCHP/$PAGE/$SORT/0" | hgrep 'td' | sed 's/<i>Anonymous<\/i>/<a class="detDesc">Anonymous<\/a>/g' > "$t1"
 grep -o "Size [0-9].*," "$t1" | sed 's/Size //; s/\&nbsp\;/ /; s/,//;' > "$t_size"
 grep -o 'Uploaded [0-9].*[0-9],' "$t1" | sed 's/Uploaded //; s/&nbsp\;/-/; s/,//' > "$t_time"
 hgrep 'a +class="detDesc" @p"%i\n"' "$t1" > "$t_uled"
