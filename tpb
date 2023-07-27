@@ -3,7 +3,7 @@
 # License: GNU GPLv3
 
 SORT='7' #se
-PAGE=0
+PAGE=1
 SEARCH=""
 DOMAIN="https://tpb.party"
 DELIM="\t"
@@ -26,14 +26,12 @@ do
       case "$2" in
         name) SORT='1';;
         rname) SORT='2';;
-        size) SORT='3';;
-        rsize) SORT='4';;
-        time) SORT='5';;
-        rtime) SORT='6';;
-        se) SORT='7';;
-        rse) SORT='8';;
-        le) SORT='9';;
-        rle) SORT='10';;
+        time) SORT='3';;
+        rtime) SORT='4';;
+        size) SORT='5';;
+        rsize) SORT='6';;
+        le) SORT='8';;
+        se) SORT='9';;
         uled) SORT='11';;
         ruled) SORT='12';;
         type) SORT='13';;
@@ -43,7 +41,7 @@ do
     -h|--help)
         NAME="$(basename "$0")"
         printf "%s [OPTION]... [PATTERN]\nSearch for PATTERN in pb.\nExample: %s -s size -p 2 'archlinux'\n\n" "$NAME" "$NAME"
-        printf "Options:\n  -s,  --sort TYPE\t\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, rse, le, rle, uled, ruled, type, rtype\n"
+        printf "Options:\n  -s,  --sort TYPE\t\tsort using TYPE that can be: name, rname, size, rsize, time, rtime, se, le, uled, ruled, type, rtype\n"
         printf "  -d,  --domain DOMAIN\t\tset domain to DOMAIN\n"
         printf "  -D,  --delimiter DELIM\tset delimiter to DELIM\n"
         printf "  -p,  --page NUM\t\tshow page at NUM\n"
